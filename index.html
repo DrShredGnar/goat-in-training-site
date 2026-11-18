@@ -3,59 +3,117 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Youth sports training · GOAT in Training</title>
+<title>Daily sports training for kids · GOAT in Training</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Nunito:wght@800;900&display=swap">
 <link rel="stylesheet" href="site.css">
 </head>
-<body>
+<body class="page-index">
 <header class="band">
   <div class="col">
     <a class="brand" href="index.html">GOAT in Training</a>
-    <a class="pill" href="index.html#get">Get the app</a>
-    <nav aria-label="Site">
-      <a href="privacy.html">Privacy</a>
-      <a href="terms.html">Terms</a>
-      <a href="support.html">Support</a>
-    </nav>
   </div>
 </header>
 <main class="col">
 
-<!-- title: Youth sports training -->
-<h1>Get 1% better every day.</h1>
-<p class="lede">GOAT in Training is a daily training app for young athletes and the parent who coaches them.</p>
+<!-- title: Daily sports training for kids -->
+<section class="hero">
+  <div class="pitch">
+    <h1>Help your young athlete get 1% better every day.</h1>
+    <p class="lede">A short training session, ready every day, for ages 6 to 12. Football, basketball, baseball, softball, hockey and soccer. They check it off. You watch it add up.</p>
+    <form class="waitlist" id="waitlist" novalidate>
+  <label for="waitlist-email">Parent's email</label>
+  <div class="row">
+    <input id="waitlist-email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="you@example.com" maxlength="254" required aria-describedby="waitlist-error waitlist-note">
+    <button type="submit">Email me when it's out</button>
+  </div>
+  <p class="trap" aria-hidden="true"><label>Leave this empty <input name="company" type="text" tabindex="-1" autocomplete="off"></label></p>
+  <p class="error" id="waitlist-error" role="alert"></p>
+  <p class="small" id="waitlist-note">Coming soon to iPhone and Android. One email when the app is ready, nothing else. <a href="privacy.html#waitlist">How we use your email</a>.</p>
+  <noscript><p class="small">This form needs JavaScript. You can also ask through the <a href="support.html">support page</a>.</p></noscript>
+</form>
+<div class="card joined" id="waitlist-done" role="status" tabindex="-1" hidden>
+  <p><strong>You are on the list.</strong> We will send one email to <span id="waitlist-who"></span> when the app is ready.</p>
+</div>
+<script>
+(function () {
+  var form = document.getElementById('waitlist');
+  if (!form) return;
+  var email = form.elements.email;
+  var button = form.querySelector('button');
+  var error = document.getElementById('waitlist-error');
+  var label = button.textContent;
 
-<section class="card get" id="get" aria-labelledby="get-title">
-  <h2 id="get-title">Get the app</h2>
-  <ul class="stores"><li><span class="store soon"><small>Coming soon to the</small>App Store</span><span class="devices">iPhone and iPad</span></li><li><span class="store soon"><small>Coming soon to</small>Google Play</span><span class="devices">Android</span></li></ul><p>The app is not in the stores yet. The download links will be here as soon as it is.</p>
-  <p class="small">GOAT in Training runs on your phone. Setting up and signing in both happen inside the app, so there is nothing to log in to on this website.</p>
+  function fail(message) {
+    error.textContent = message;
+    email.setAttribute('aria-invalid', 'true');
+    button.disabled = false;
+    button.textContent = label;
+    email.focus();
+  }
+  function finish(address) {
+    document.getElementById('waitlist-who').textContent = address;
+    var done = document.getElementById('waitlist-done');
+    form.hidden = true;
+    done.hidden = false;
+    done.focus();
+  }
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    var address = email.value.trim();
+    error.textContent = '';
+    email.removeAttribute('aria-invalid');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(address)) {
+      fail('Enter an email address, like name@example.com.');
+      return;
+    }
+    // A field people cannot see. Only a script fills it in, and it gets a polite nothing.
+    if (form.elements.company.value) {
+      finish(address);
+      return;
+    }
+    button.disabled = true;
+    button.textContent = 'Adding you…';
+    fetch('https://xmqthpplazqofzcbhabe.supabase.co/rest/v1/rpc/join_waitlist', {
+      method: 'POST',
+      headers: { apikey: 'sb_publishable_8dzL3QKjUMCel35Mio_tsQ_yFz1EYUl', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ p_email: address }),
+    }).then(function (response) {
+      if (response.ok) return finish(address);
+      return response.json().catch(function () { return {}; }).then(function (body) {
+        fail(body.code === '22023'
+          ? 'That email address does not look right. Check it and try again.'
+          : 'That did not go through. Please try again in a minute.');
+      });
+    }, function () {
+      fail('No connection. Check your internet and try again.');
+    });
+  });
+})();
+</script>
+
+  </div>
+  <figure class="phone">
+    <img src="hero-today.jpg" width="580" height="842" fetchpriority="high" alt="The app's Today screen for an athlete named Sam: a 13 day streak, 1,773 catches, the days of the week, and today's 20 to 25 minute Hands session.">
+  </figure>
 </section>
 
-<h2>How to start</h2>
-<ol class="steps">
-  <li><strong>Download the app on a parent's phone.</strong> The first 10 sessions are free for every athlete.</li>
-  <li><strong>Add your athlete.</strong> A first name or nickname, birth year, sport and goal. You do not need an account to begin.</li>
-  <li><strong>Train today.</strong> Your athlete does the session and checks off each drill.</li>
-  <li><strong>Want it on a second phone?</strong> Sign in from the Parent tab with a code sent to your email, and your athletes and their progress appear on both.</li>
-</ol>
-
-<h2>What is inside</h2>
-<div class="card">
-  <ul>
-    <li><strong>A short session every day.</strong> Speed, power, footwork and your sport's skills, about 15 to 25 minutes on weekdays.</li>
-    <li><strong>Five sports.</strong> Football, basketball, baseball and softball, hockey, and soccer.</li>
-    <li><strong>Your athlete checks it off.</strong> Every finished session moves the goat up the mountain.</li>
-    <li><strong>Progress you can measure.</strong> Levels for each skill and a Combine Day every six weeks.</li>
-    <li><strong>Built for families.</strong> No ads, no chat, no public profiles. A parent holds the account.</li>
-  </ul>
-</div>
-
-<p>Read the <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms of Use</a>, or get <a href="support.html">support</a>.</p>
+<h2 class="sr-only">What parents ask first</h2>
+<ul class="answers">
+  <li><strong>No coaching experience needed.</strong> Every drill comes with plain steps and one thing to focus on. Weekday sessions take about 15 to 25 minutes.</li>
+  <li><strong>Made for growing kids.</strong> No gym and no weights. Body weight, your sport's ball and a little space, with a rest day every week.</li>
+  <li><strong>Free to start, and private.</strong> The first 10 sessions are free for every athlete. No ads, no chat, no public profiles.</li>
+</ul>
 
 </main>
 <footer class="col">
+  <nav aria-label="Site">
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="support.html">Support</a>
+  </nav>
   <p>GOAT in Training. Get 1% better every day.</p>
 </footer>
 </body>
