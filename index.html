@@ -8,6 +8,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Nunito:wght@800;900&display=swap">
 <link rel="stylesheet" href="site.css">
+<script>(function(d){try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;d.classList.add('motion-pending');setTimeout(function(){d.classList.remove('motion-pending')},2500)}catch(e){}})(document.documentElement)</script>
+<script defer src="vendor/gsap.min.js"></script>
+<script defer src="vendor/ScrollTrigger.min.js"></script>
+<script defer src="vendor/SplitText.min.js"></script>
+<script defer src="vendor/lenis.min.js"></script>
+<script defer src="motion.js"></script>
 </head>
 <body class="page-index">
 <header class="band">
@@ -20,7 +26,7 @@
 <!-- title: Daily sports training for kids -->
 <section class="hero">
   <div class="pitch">
-    <h1>Help your young athlete get 1% better every day.</h1>
+    <h1 data-split>Help your young athlete get <span class="hl">1% better</span> every day.</h1>
     <p class="lede">A short training session, ready every day, for ages 6 to 12. Football, basketball, baseball, softball, hockey and soccer. They check it off. You watch it add up.</p>
     <form class="waitlist" id="waitlist" novalidate>
   <label for="waitlist-email">Parent's email</label>
@@ -95,17 +101,27 @@
 </script>
 
   </div>
-  <figure class="phone">
+  <figure class="phone" data-reveal>
     <img src="hero-today.jpg" width="580" height="842" fetchpriority="high" alt="The app's Today screen for an athlete named Sam: a 13 day streak, 1,773 catches, the days of the week, and today's 20 to 25 minute Hands session.">
   </figure>
 </section>
 
 <h2 class="sr-only">What parents ask first</h2>
-<ul class="answers">
+<ul class="answers" data-reveal-group>
   <li><strong>No coaching experience needed.</strong> Every drill comes with plain steps and one thing to focus on. Weekday sessions take about 15 to 25 minutes.</li>
   <li><strong>Made for growing kids.</strong> No gym and no weights. Body weight, your sport's ball and a little space, with a rest day every week.</li>
   <li><strong>Free to start, and private.</strong> The first 10 sessions are free for every athlete. No ads, no chat, no public profiles.</li>
 </ul>
+
+<h2 id="climb-title" data-reveal>The climb</h2>
+<figure class="card climb" aria-labelledby="climb-title" data-reveal data-climb data-rate="1.01" data-sessions="365" data-ledges="First Step:1.1|Foothill:1.25|Tree Line:1.5|Double Rock:2|The Ridge:3|High Camp:5|Cloud Line:10|Summit Ridge:20" data-peak="Year Peak">
+  <div class="climb-readout" aria-hidden="true">
+    <span class="climb-mult" data-climb-mult>37.8×</span>
+    <span class="climb-meta"><span data-climb-session>365 finished sessions</span><span data-climb-ledge>Year Peak reached</span></span>
+  </div>
+  <div class="climb-chart" data-climb-chart role="img" aria-label="A mountain shaped like the 1% curve. A goat climbs it one finished session at a time, past nine ledges, to 37.8 times the starting height after 365 sessions."></div>
+  <figcaption>Every finished session moves the goat up the mountain, 1% on top of everything before it. The climb shows how steady your athlete has been, not how good they are. Days off add nothing and take nothing away.</figcaption>
+</figure>
 
 </main>
 <footer class="col">

@@ -3,6 +3,7 @@
   --bg: #F0F6FF; --surface: #FFFFFF; --ink: #0A1633; --muted: #465473; --line: #CFE0FF;
   --band: #1A4FE0; --band2: #0E62D0; --on-band: #FFFFFF; --link: #1546D0; --mark: #FFE873; --danger: #B91C1C;
   --cta: #FFD60A; --on-cta: #0A1633; --cta-edge: #A67C00; --field: #7385AD; --frame: #0A1633;
+  --surface2: #E6EFFF; --mountain: #12306E; --flag: #1A4FE0;
   --display: 'Nunito', 'Arial Rounded MT Bold', system-ui, sans-serif;
   --body: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
@@ -10,6 +11,7 @@
   :root {
     --bg: #081226; --surface: #101D3A; --ink: #F1F6FF; --muted: #A9B8D6; --line: #24365F;
     --link: #8FB8FF; --mark: #5C4A00; --danger: #FCA5A5; --field: #7F93C2; --frame: #2B3D6B;
+    --surface2: #18284C; --mountain: #4F76CA; --flag: #6FA2FF;
     color-scheme: dark;
   }
 }
@@ -90,7 +92,50 @@ a.store:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--cta-edge)
 a.store:focus-visible { outline-color: var(--ink); border-radius: 16px; }
 .store.soon { border: 2px dashed var(--line); color: var(--muted); }
 .devices { font-size: 13px; color: var(--muted); padding-left: 4px; }
-:target { scroll-margin-top: 16px; }
-footer { color: var(--muted); font-size: 15px; padding-block: 12px 40px; border-top: 1px solid var(--line); margin-top: 40px; }
+[id] { scroll-margin-top: 16px; }
+footer { color: var(--muted); padding-block: 12px 40px; border-top: 1px solid var(--line); margin-top: 40px; }
+/* The smaller size goes on what is inside the footer: the column is measured in ch, so a smaller font on the footer itself would make it narrower than the page above. */
+footer p, footer nav { font-size: 15px; }
 footer nav { display: flex; flex-wrap: wrap; gap: 4px 24px; margin-bottom: 6px; }
 footer nav a { font-weight: 700; padding: 10px 0; }
+
+/* Home page: the marker under "1% better" in the headline. */
+.hl { background: linear-gradient(var(--mark), var(--mark)) no-repeat 0 86% / 100% 0.36em; }
+/* Empty while the page waits for the script as well, so the marker never has a full state to shrink back from. */
+.hl.hl-wait, .motion-pending .hl { background-size: 0% 0.36em; }
+
+/* Home page: the climb. A year of the 1% curve, drawn to scale by motion.js. */
+.climb-readout { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 4px 16px; margin-bottom: 12px; }
+.climb-mult { font: 900 clamp(40px, 10vw, 56px)/1 var(--display); color: var(--link); font-variant-numeric: tabular-nums; min-width: 3.3ch; }
+.climb-meta { display: flex; flex-direction: column; font-size: 15px; line-height: 1.4; color: var(--muted); font-variant-numeric: tabular-nums; padding-bottom: 4px; }
+.climb-meta > :first-child { color: var(--ink); font-weight: 700; }
+.climb-chart { display: none; position: relative; height: 230px; border-radius: 16px; overflow: hidden; background: var(--surface2); margin-bottom: 12px; }
+.drawn .climb-chart { display: block; }
+.climb-chart > svg { display: block; }
+.climb-chart .goat { position: absolute; left: 0; top: 0; will-change: transform; }
+.climb-slope { fill: var(--mountain); }
+.climb-line { stroke: var(--cta); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+.climb-pole { stroke: var(--ink); stroke-width: 2; }
+.climb-flag { fill: var(--flag); }
+.climb-dot { fill: var(--surface); stroke: var(--mountain); stroke-width: 2; }
+.climb-dot.on { fill: var(--cta); stroke: var(--on-cta); }
+.climb figcaption { font-size: 15px; color: var(--muted); }
+@media (min-width: 860px) { .climb-chart { height: 280px; } }
+
+/*
+ * Motion. All of it is extra: the page is complete without any of these rules.
+ * Smooth scrolling is Lenis (MIT, darkroom.engineering); the two rules below are the part of its stylesheet these pages need.
+ */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-stopped { overflow: clip; }
+/* Pieces that animate in stay hidden until motion.js takes over. The class is only ever set by the line in <head>. */
+.motion-pending [data-split], .motion-pending [data-reveal], .motion-pending [data-reveal-group] > * { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  /* Moving between the four pages cross-fades, and the blue band stays put. Browsers without this simply load the page. */
+  @view-transition { navigation: auto; }
+  .band { view-transition-name: band; }
+  .hl { transition: background-size 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .waitlist button, a.store { transition: transform 0.16s ease-out, box-shadow 0.16s ease-out; }
+  .waitlist button:hover:not(:disabled), a.store:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--cta-edge); }
+  .waitlist button:active:not(:disabled), a.store:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--cta-edge); }
+}
