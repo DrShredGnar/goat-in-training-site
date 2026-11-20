@@ -54,6 +54,7 @@ address { font-style: normal; }
 .answers { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 12px; }
 .answers li { margin: 0; background: var(--surface); border: 2px solid var(--line); border-radius: 22px; padding: 14px 18px; }
 .answers strong { display: block; font: 800 18px/1.35 var(--display); margin-bottom: 2px; }
+.answers + .small { margin-top: 12px; }
 /* The home page is wider than the reading column the legal pages use. */
 .page-index .col { max-width: 1000px; }
 @media (min-width: 860px) {
