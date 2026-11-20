@@ -3,7 +3,8 @@
   --bg: #F0F6FF; --surface: #FFFFFF; --ink: #0A1633; --muted: #465473; --line: #CFE0FF;
   --band: #1A4FE0; --band2: #0E62D0; --on-band: #FFFFFF; --link: #1546D0; --mark: #FFE873; --danger: #B91C1C;
   --cta: #FFD60A; --on-cta: #0A1633; --cta-edge: #A67C00; --field: #7385AD; --frame: #0A1633;
-  --surface2: #E6EFFF; --mountain: #12306E; --flag: #1A4FE0;
+  --surface2: #E6EFFF; --mountain: #12306E;
+  --far: #B5C9F2; --snow: #FFFFFF; --cloud: #FFFFFF; --pole: #0A1633; --tree: #2ED3A3;
   --display: 'Nunito', 'Arial Rounded MT Bold', system-ui, sans-serif;
   --body: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
@@ -11,7 +12,8 @@
   :root {
     --bg: #081226; --surface: #101D3A; --ink: #F1F6FF; --muted: #A9B8D6; --line: #24365F;
     --link: #8FB8FF; --mark: #5C4A00; --danger: #FCA5A5; --field: #7F93C2; --frame: #2B3D6B;
-    --surface2: #18284C; --mountain: #4F76CA; --flag: #6FA2FF;
+    --surface2: #18284C; --mountain: #4F76CA;
+    --far: #2B3F74; --snow: #F1F6FF; --cloud: #DCE8FF; --pole: #081226;
     color-scheme: dark;
   }
 }
@@ -105,23 +107,33 @@ footer nav a { font-weight: 700; padding: 10px 0; }
 /* Empty while the page waits for the script as well, so the marker never has a full state to shrink back from. */
 .hl.hl-wait, .motion-pending .hl { background-size: 0% 0.36em; }
 
-/* Home page: the climb. A year of the 1% curve, drawn to scale by motion.js. */
+/*
+ * Home page: the climb. The app's own mountain, drawn into the page by the build (scripts/site-climb.ts) as the
+ * end of the year, and walked from the bottom by motion.js. The names sit over the drawing and shrink with it.
+ */
 .climb-readout { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 4px 16px; margin-bottom: 12px; }
 .climb-mult { font: 900 clamp(40px, 10vw, 56px)/1 var(--display); color: var(--link); font-variant-numeric: tabular-nums; min-width: 3.3ch; }
 .climb-meta { display: flex; flex-direction: column; font-size: 15px; line-height: 1.4; color: var(--muted); font-variant-numeric: tabular-nums; padding-bottom: 4px; }
 .climb-meta > :first-child { color: var(--ink); font-weight: 700; }
-.climb-chart { display: none; position: relative; height: 230px; border-radius: 16px; overflow: hidden; background: var(--surface2); margin-bottom: 12px; }
-.drawn .climb-chart { display: block; }
-.climb-chart > svg { display: block; }
-.climb-chart .goat { position: absolute; left: 0; top: 0; will-change: transform; }
-.climb-slope { fill: var(--mountain); }
-.climb-line { stroke: var(--cta); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
-.climb-pole { stroke: var(--ink); stroke-width: 2; }
-.climb-flag { fill: var(--flag); }
-.climb-dot { fill: var(--surface); stroke: var(--mountain); stroke-width: 2; }
-.climb-dot.on { fill: var(--cta); stroke: var(--on-cta); }
+.climb-chart { position: relative; container-type: inline-size; width: min(100%, 400px, 44svh); aspect-ratio: 320 / 520; margin: 0 auto 12px; border-radius: 16px; overflow: hidden; background: var(--surface2); }
+.climb-mountain { display: block; width: 100%; height: 100%; }
+.climb-line { fill: none; stroke: var(--cta); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+.climb-chart .off { display: none; }
+.climb-label { position: absolute; display: flex; flex-direction: column; transform: translateY(-50%); padding: 0.17em 0.58em; border: 1.5px solid var(--line); border-radius: 0.85em; background: var(--surface); color: var(--ink); font: 600 clamp(8.5px, 3.45cqw, 12px)/1.25 var(--body); white-space: nowrap; opacity: 0.86; }
+.climb-label b { font-weight: 600; }
+.climb-label i { font-style: normal; font-weight: 500; font-size: 0.92em; color: var(--muted); font-variant-numeric: tabular-nums; }
+.climb-label.got { opacity: 1; }
+.climb-label.got b::before { content: '✓ '; color: var(--link); font-weight: 800; }
+.climb-label.next { opacity: 1; background: var(--cta); border-color: var(--on-cta); color: var(--on-cta); }
+.climb-label.next i { color: var(--on-cta); }
 .climb figcaption { font-size: 15px; color: var(--muted); }
-@media (min-width: 860px) { .climb-chart { height: 280px; } }
+/* Wide enough for two columns: the mountain on the left, the numbers and the sentence beside it. */
+@media (min-width: 700px) {
+  .climb { display: grid; grid-template-columns: minmax(0, 340px) 1fr; grid-template-rows: 1fr 1fr; column-gap: 28px; }
+  .climb-chart { grid-column: 1; grid-row: 1 / 3; width: min(100%, 86svh * 320 / 520); margin: 0; }
+  .climb-readout { grid-column: 2; grid-row: 1; align-self: end; }
+  .climb figcaption { grid-column: 2; grid-row: 2; align-self: start; }
+}
 
 /*
  * Motion. All of it is extra: the page is complete without any of these rules.

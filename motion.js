@@ -16,139 +16,95 @@
   var SplitText = window.SplitText;
   var still = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  /* ---------- the climb: a year of the 1% curve, to scale ---------- */
-  var COAT = '#FFFDF7';
-  var LINE = '#0F172A';
-  /* Same shapes as the app's goat (src/components/goat.tsx). */
-  var GOAT =
-    '<svg class="goat" width="39" height="34" viewBox="0 -5 46 45" aria-hidden="true">' +
-    [11, 16.5, 24, 29.5]
-      .map(function (x) {
-        return '<rect x="' + x + '" y="24" width="4.5" height="14" rx="2.2" fill="' + COAT + '" stroke="' + LINE + '" stroke-width="2"/>';
-      })
-      .join('') +
-    '<path d="M9 16 L4 11" stroke="' + LINE + '" stroke-width="5.5" stroke-linecap="round"/>' +
-    '<path d="M9 16 L4 11" stroke="' + COAT + '" stroke-width="2" stroke-linecap="round"/>' +
-    '<rect x="8" y="13" width="27" height="15" rx="7.5" fill="' + COAT + '" stroke="' + LINE + '" stroke-width="2.5"/>' +
-    '<path d="M34 8 C32 0 25 -2 20 3" stroke="' + LINE + '" stroke-width="6" stroke-linecap="round" fill="none"/>' +
-    '<path d="M34 8 C32 0 25 -2 20 3" stroke="' + COAT + '" stroke-width="2" stroke-linecap="round" fill="none"/>' +
-    '<path d="M30 13 C30 8 34 6 37.5 7 C41 8 44.5 12 44.5 15.5 C44.5 18 42.5 19 40 18.5 C36 20 30 18.5 30 13 Z" fill="' + COAT + '" stroke="' + LINE + '" stroke-width="2.5" stroke-linejoin="round"/>' +
-    '<ellipse cx="30" cy="11.5" rx="3.2" ry="1.8" fill="' + COAT + '" stroke="' + LINE + '" stroke-width="2" transform="rotate(-25 30 11.5)"/>' +
-    '<path d="M38.5 19 L39.5 25.5 L42 19 Z" fill="' + COAT + '" stroke="' + LINE + '" stroke-width="2" stroke-linejoin="round"/>' +
-    '<circle cx="37" cy="11.5" r="1.5" fill="' + LINE + '"/><circle cx="42.5" cy="14.5" r="0.8" fill="' + LINE + '"/></svg>';
-
+  /* ---------- the climb: the app's mountain, walked one finished session at a time ---------- */
   /* Same rounding as fmtMult in src/core/progress.ts. */
   function fmtMult(x) {
     return (x < 10 ? x.toFixed(2) : x < 100 ? x.toFixed(1) : String(Math.round(x))) + '×';
   }
 
+  /*
+   * The build draws the mountain into the page as the end of the year (scripts/site-climb.ts): every flag up, the
+   * whole trail climbed, the goat on the summit in all its gear. This moves those pieces to any session count.
+   */
   function makeClimb(fig) {
     var chart = fig.querySelector('[data-climb-chart]');
     var rate = parseFloat(fig.getAttribute('data-rate'));
-    var total = parseInt(fig.getAttribute('data-sessions'), 10);
-    if (!chart || !(rate > 1) || !(total > 0)) return null;
-    var mult = function (n) { return Math.pow(rate, n); };
-    /* "First Step:1.1|Foothill:1.25|…", written into the page by the build from the app's own list. */
+    /* "First Step:10:1.1×|…", written into the page by the build from the app's own list. */
     var ledges = (fig.getAttribute('data-ledges') || '').split('|').filter(Boolean).map(function (s) {
-      var i = s.lastIndexOf(':');
-      var m = parseFloat(s.slice(i + 1));
-      return { name: s.slice(0, i), n: Math.ceil(Math.log(m) / Math.log(rate) - 1e-9), label: m + '×' };
+      var p = s.split(':');
+      return { name: p[0], n: parseInt(p[1], 10), label: p[2] };
     });
-    ledges.push({ name: fig.getAttribute('data-peak') || 'Year Peak', n: total, label: fmtMult(mult(total)) });
+    /* Where the trail turns: the start, then one point for each ledge. */
+    var trail = (fig.getAttribute('data-trail') || '').split(' ').filter(Boolean).map(function (s) {
+      var p = s.split(',');
+      return [parseFloat(p[0]), parseFloat(p[1])];
+    });
+    if (!chart || !(rate > 1) || !ledges.length || trail.length !== ledges.length + 1) return null;
+    var all = function (sel) { return Array.prototype.slice.call(chart.querySelectorAll(sel)); };
+    var line = chart.querySelector('.climb-line');
+    var goat = chart.querySelector('.climb-goat');
+    var rings = all('.climb-ring'), flags = all('.climb-reached'), labels = all('.climb-label'), gears = all('.climb-gear');
+    if (!line || !goat || flags.length !== ledges.length || gears.length !== ledges.length + 1) return null;
 
+    var total = ledges[ledges.length - 1].n;
+    var mult = function (n) { return Math.pow(rate, n); };
+    var gw = parseFloat(goat.getAttribute('data-w')), gh = parseFloat(goat.getAttribute('data-h'));
+    var marks = [0].concat(ledges.map(function (l) { return l.n; }));
     var out = {
       mult: fig.querySelector('[data-climb-mult]'),
       session: fig.querySelector('[data-climb-session]'),
       ledge: fig.querySelector('[data-climb-ledge]'),
     };
-    var PAD = { top: 56, right: 30, bottom: 10, left: 26 };
-    var POLE = 46; /* tall enough that the flag still shows above the goat at the top */
-    var big = 1;   /* the goat is drawn larger on a wide chart */
-    var w = 0, h = 0, n = total, shownText = '', reached = -1;
-    var climbed, dots = [], goat;
-    var hi = mult(total);
-    var px = function (k) { return PAD.left + (k / total) * (w - PAD.left - PAD.right); };
-    var py = function (k) { return h - PAD.bottom - 14 - ((mult(k) - 1) / (hi - 1)) * (h - PAD.top - PAD.bottom - 14); };
-    var pt = function (k) { return px(k).toFixed(1) + ',' + py(k).toFixed(1); };
+    var shownText = '', reached = -1;
 
-    function build() {
-      w = chart.clientWidth;
-      h = chart.clientHeight;
-      if (!w || !h) return;
-      big = w >= 560 ? 1.35 : 1;
-      POLE = Math.round(44 * big) + 2;
-      PAD.top = POLE + 10;
-      PAD.right = Math.round(30 * big);
-      var base = h - PAD.bottom;
-      var line = '';
-      for (var k = 0; k <= total; k++) line += (k ? ' L' : 'L') + pt(k);
-      var fx = px(total), fy = py(total);
-      chart.innerHTML =
-        '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" aria-hidden="true">' +
-        '<path class="climb-slope" d="M0,' + py(0).toFixed(1) + ' ' + line + ' L' + w + ',' + fy.toFixed(1) + ' L' + w + ',' + base + ' L0,' + base + ' Z"/>' +
-        '<path class="climb-line" d="" fill="none"/>' +
-        '<line class="climb-pole" x1="' + fx + '" y1="' + fy + '" x2="' + fx + '" y2="' + (fy - POLE) + '"/>' +
-        '<polygon class="climb-flag" points="' + fx + ',' + (fy - POLE) + ' ' + (fx - 15) + ',' + (fy - POLE + 6) + ' ' + fx + ',' + (fy - POLE + 12) + '"/>' +
-        ledges.slice(0, -1).map(function (l) {
-          return '<circle class="climb-dot" cx="' + px(l.n).toFixed(1) + '" cy="' + py(l.n).toFixed(1) + '" r="4.5"/>';
-        }).join('') +
-        '</svg>' + GOAT;
-      climbed = chart.querySelector('.climb-line');
-      dots = Array.prototype.slice.call(chart.querySelectorAll('.climb-dot'));
-      goat = chart.querySelector('.goat');
-      goat.setAttribute('width', (39 * big).toFixed(1));
-      goat.setAttribute('height', (34 * big).toFixed(1));
-      goat.style.transformOrigin = (22 * big).toFixed(1) + 'px ' + (33 * big).toFixed(1) + 'px';
-      reached = -1;
-      draw(n, true);
-    }
-
-    function draw(value, quiet) {
-      n = Math.max(0, Math.min(total, value));
-      if (!climbed) return;
+    function draw(value) {
+      var n = Math.max(0, Math.min(total, value));
       var whole = Math.floor(n);
-      var d = 'M' + pt(0);
-      for (var k = 1; k <= whole; k++) d += ' L' + pt(k);
-      if (n > whole) d += ' L' + pt(n);
-      climbed.setAttribute('d', n > 0 ? d : '');
-      /* The goat leans into the slope, but only part of the way: a goat stays upright on a steep face. */
-      var rise = Math.atan2(py(Math.max(0, n - 2)) - py(Math.min(total, n + 2)), px(Math.min(total, n + 2)) - px(Math.max(0, n - 2)));
-      var lean = Math.min(26, (rise * 180) / Math.PI * 0.5);
-      lean *= Math.min(1, (total - n) / 6); /* and stands level on the flat top */
-      goat.style.transform = 'translate(' + (px(n) - 22 * big).toFixed(1) + 'px,' + (py(n) - 33 * big).toFixed(1) + 'px) rotate(' + (-lean).toFixed(1) + 'deg)';
 
+      /* The climbed trail and the goat follow the exact value, so the walk is smooth between sessions. */
+      var i = 0;
+      while (i < marks.length - 1 && n >= marks[i + 1]) i++;
+      var pts = trail.slice(0, i + 1);
+      var at = trail[i];
+      if (i < marks.length - 1) {
+        var f = (n - marks[i]) / (marks[i + 1] - marks[i]);
+        at = [trail[i][0] + (trail[i + 1][0] - trail[i][0]) * f, trail[i][1] + (trail[i + 1][1] - trail[i][1]) * f];
+        if (f > 0) pts = pts.concat([at]);
+      }
+      line.setAttribute('points', pts.length > 1 ? pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ') : '');
+      goat.setAttribute('transform', 'translate(' + (at[0] - gw / 2).toFixed(1) + ' ' + (at[1] - gh * 0.93).toFixed(1) + ')');
+
+      /* Flags, names and gear change only when a whole session lands on a ledge. */
       var count = 0;
-      while (count < ledges.length - 1 && whole >= ledges[count].n) count++;
+      while (count < ledges.length && whole >= ledges[count].n) count++;
       if (count !== reached) {
-        dots.forEach(function (dot, i) {
-          var on = i < count;
-          dot.classList.toggle('on', on);
-          /* A ledge pops as the goat steps onto it. */
-          if (on && i === count - 1 && count > reached && !quiet && gsap) {
-            gsap.fromTo(dot, { attr: { r: 10 } }, { attr: { r: 4.5 }, duration: 0.45, ease: 'back.out(2.5)', overwrite: true });
+        ledges.forEach(function (l, k) {
+          flags[k].classList.toggle('off', k >= count);
+          if (rings[k]) rings[k].classList.toggle('off', k < count);
+          if (labels[k]) {
+            labels[k].classList.toggle('got', k < count);
+            labels[k].classList.toggle('next', k === count);
           }
         });
+        gears.forEach(function (g, k) { g.classList.toggle('off', k !== count); });
         reached = count;
       }
-      var next = whole >= total ? null : ledges[count];
-      var text = fmtMult(mult(whole)) + '|' + whole + '|' + (next ? next.name : '');
+      var next = count < ledges.length ? ledges[count] : null;
+      var text = whole + '|' + count;
       if (text !== shownText) {
         shownText = text;
+        labels.forEach(function (el, k) {
+          var v = el.querySelector('[data-climb-value]');
+          if (v) v.textContent = next && k === count ? next.n - whole + ' to go' : ledges[k].label;
+        });
         if (out.mult) out.mult.textContent = fmtMult(mult(whole));
         if (out.session) out.session.textContent = whole + ' finished ' + (whole === 1 ? 'session' : 'sessions');
         if (out.ledge) out.ledge.textContent = next ? 'Next ledge: ' + next.name + ' · ' + next.label : ledges[ledges.length - 1].name + ' reached';
       }
     }
 
-    /* The chart box only takes up room once there is something to draw in it. */
-    fig.classList.add('drawn');
-    build();
-    if (window.ResizeObserver) {
-      new ResizeObserver(function () {
-        if (chart.clientWidth !== w || chart.clientHeight !== h) build();
-      }).observe(chart);
-    }
-    return { draw: draw, total: total };
+    draw(total);
+    return { draw: draw, total: total, chart: chart };
   }
 
   var climbs = [];
@@ -236,12 +192,13 @@
     /* Scrolling past the mountain walks the goat through the year. */
     climbs.forEach(function (c) {
       var state = { n: 0 };
-      c.api.draw(0, true);
+      c.api.draw(0);
+      /* The walk runs while the whole mountain is on the screen: from its foot coming into view to its summit nearing the top. */
       gsap.to(state, {
         n: c.api.total,
         ease: 'none',
         onUpdate: function () { c.api.draw(state.n); },
-        scrollTrigger: { trigger: c.fig, start: 'clamp(top 78%)', end: 'clamp(bottom 62%)', scrub: 0.6 },
+        scrollTrigger: { trigger: c.api.chart, start: 'clamp(bottom 100%)', end: 'clamp(top 5%)', scrub: 1 },
       });
     });
   } catch (e) {
@@ -249,6 +206,6 @@
     show();
     gsap.set('[data-reveal], [data-reveal-group] > *, [data-split]', { clearProps: 'all' });
     Array.prototype.forEach.call(document.querySelectorAll('.hl-wait'), function (m) { m.classList.remove('hl-wait'); });
-    climbs.forEach(function (c) { c.api.draw(c.api.total, true); });
+    climbs.forEach(function (c) { c.api.draw(c.api.total); });
   }
 })();
