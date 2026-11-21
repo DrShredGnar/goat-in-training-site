@@ -71,6 +71,15 @@
   var error = document.getElementById('waitlist-error');
   var label = button.textContent;
 
+  // The team from a coach's flyer: its QR code opens the site with ?team=eagles-10u. Kept for this visit only, so a
+  // parent who reads a few drill pages first still signs up under the team. Same form as the flyer makes it.
+  var team = (new URLSearchParams(location.search).get('team') || '').toLowerCase();
+  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(team) || team.length > 40) team = null;
+  try {
+    if (team) sessionStorage.setItem('goat-team', team);
+    else team = sessionStorage.getItem('goat-team');
+  } catch (e) {}
+
   function fail(message) {
     error.textContent = message;
     email.setAttribute('aria-invalid', 'true');
@@ -105,7 +114,7 @@
     fetch('https://xmqthpplazqofzcbhabe.supabase.co/rest/v1/rpc/join_waitlist', {
       method: 'POST',
       headers: { apikey: 'sb_publishable_8dzL3QKjUMCel35Mio_tsQ_yFz1EYUl', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ p_email: address }),
+      body: JSON.stringify(team ? { p_email: address, p_team: team } : { p_email: address }),
     }).then(function (response) {
       if (response.ok) return finish(address);
       return response.json().catch(function () { return {}; }).then(function (body) {
