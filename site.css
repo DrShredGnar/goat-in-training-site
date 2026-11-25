@@ -251,3 +251,31 @@ html.lenis, html.lenis body { height: auto; }
   .waitlist button:hover:not(:disabled), a.store:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--cta-edge); }
   .waitlist button:active:not(:disabled), a.store:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--cta-edge); }
 }
+
+/* The coach's team page (site/coach-team.js). Forms borrow the waitlist's and the flyer's styles. */
+.team-app { margin-top: 32px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
+.team-app h2 { margin-top: 0; }
+.team-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.team-head .plain { margin-top: 0; }
+.team-card { background: var(--surface); border: 2px solid var(--line); border-radius: 22px; padding: 18px 20px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+.team-card td { min-width: 4.5rem; }
+.team-card td:first-child { min-width: 6rem; }
+.team-card td:nth-child(4) { min-width: 10rem; }
+.team-card h2, .team-card h3, .team-card p { margin: 0; }
+.team-code { display: inline-flex; flex-direction: column; align-self: start; justify-self: start; background: var(--surface2); border-radius: 16px; padding: 10px 16px; }
+.team-code strong { font: 800 32px/1.1 var(--display); letter-spacing: .12em; }
+.team-focus { display: grid; gap: 8px; }
+.focus-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.focus-row label { flex: 1 1 160px; font-weight: 700; font-size: 15px; }
+.team-app select { flex: 1 1 220px; min-height: 48px; padding: 0 12px; border: 2px solid var(--field); border-radius: 14px; background: var(--surface); color: var(--ink); font: 500 16px/1.2 var(--body); }
+.team-app select:focus-visible { outline: 3px solid var(--link); outline-offset: 2px; }
+.team-new .pair p { gap: 6px; }
+.team-app .linkish { border: 0; background: none; padding: 0; color: var(--link); font: inherit; text-decoration: underline; cursor: pointer; }
+.team-app .error { color: var(--danger); font-weight: 700; font-size: 15px; margin: 0; }
+.team-app .error:empty { display: none; }
+.team-delete summary { cursor: pointer; color: var(--muted); font-size: 15px; }
+.team-delete .plain.danger, .team-app .plain.danger { color: var(--danger); border-color: var(--danger); }
+.team-app .plain { min-height: 46px; padding: 0 18px; border: 2px solid var(--field); border-radius: 14px; background: none; color: var(--ink); font: 800 16px/1.2 var(--display); cursor: pointer; }
+/* The team code on the flyer, from the coach's team page, under the line that names the team. */
+.flyer-code { font: 500 3.2cqw/1.3 var(--body); color: var(--print-muted); margin-bottom: 2.4cqw !important; }
+.flyer-code strong { color: var(--print-ink); font: 800 4.2cqw/1 var(--display); letter-spacing: .1em; }

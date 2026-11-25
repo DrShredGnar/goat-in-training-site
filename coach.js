@@ -16,6 +16,10 @@ if (flyer && form) {
   const input = form.elements.team;
   const placeInput = form.elements.place;
   const coachInput = form.elements.coach;
+  const codeInput = form.elements.code;
+  const codeLine = document.getElementById('flyer-code');
+  // A team code from the coach's team page: six letters and numbers, never I, L, O, 0 or 1.
+  const teamCode = (s) => (/^[A-HJKMNP-Z2-9]{6}$/.test((s || '').trim().toUpperCase()) ? s.trim().toUpperCase() : '');
   const line = document.getElementById('flyer-team');
   const code = document.getElementById('flyer-qr');
   const site = flyer.dataset.site;
@@ -49,16 +53,19 @@ if (flyer && form) {
       if (coach) scan.searchParams.set('c', coach);
     }
     code.innerHTML = qrSvg(scan.href);
+    const joinCode = team ? teamCode(typed.code) : '';
+    codeLine.querySelector('strong').textContent = joinCode;
+    codeLine.hidden = !joinCode;
     if (remember) {
       const here = new URL(location.href);
-      for (const [key, value] of [['team', team], ['place', place], ['coach', coach]]) {
+      for (const [key, value] of [['team', team], ['place', place], ['coach', coach], ['code', team ? teamCode(typed.code) : '']]) {
         if (value) here.searchParams.set(key, value);
         else here.searchParams.delete(key);
       }
       history.replaceState(null, '', here);
     }
   }
-  const typed = () => ({ team: input.value, place: placeInput.value, coach: coachInput.value });
+  const typed = () => ({ team: input.value, place: placeInput.value, coach: coachInput.value, code: codeInput.value });
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -76,6 +83,7 @@ if (flyer && form) {
     input.value = tidy(given.get('team'));
     placeInput.value = tidy(given.get('place') || '');
     coachInput.value = tidy(given.get('coach') || '');
+    codeInput.value = teamCode(given.get('code'));
     show(typed(), false);
   }
 }

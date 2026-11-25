@@ -40,7 +40,8 @@
 
 <ul class="answers">
   <li><strong>It works alongside practice.</strong> Three weekday sessions build speed, power and footwork. One is skill work for your sport, Friday is rest, and on Sunday a game or a team practice counts as the session.</li>
-  <li><strong>Nothing for you to run.</strong> A parent sets it up on their own phone. There are no team accounts to manage, no chat and no public profiles, and nothing a child enters is shown to anyone else.</li>
+  <li><strong>Nothing for you to run.</strong> A parent sets it up on their own phone. There is no chat and there are no public profiles.</li>
+  <li><strong>Want to see who's putting in the work?</strong> <a href="team.html">Make a free team page</a>. Families who join with your code show you their sessions each week and how much their Combine Day results improved, and you can pick the week's skill drills. Parents decide; you never see times, distances or anything else.</li>
   <li><strong>Free to try.</strong> The first 7 sessions are free for every athlete: one full week. After that, one family membership covers every child in the house, whatever each one plays.</li>
 </ul>
 
@@ -61,6 +62,8 @@
     <input id="flyer-place-input" name="place" type="text" maxlength="40" autocomplete="off" placeholder="Portland"></p>
     <p><label for="flyer-coach-input">Your name <span class="small">(optional)</span></label>
     <input id="flyer-coach-input" name="coach" type="text" maxlength="40" autocomplete="off" placeholder="Coach Smith"></p>
+    <p><label for="flyer-code-input">Team code <span class="small">(optional, from <a href="team.html">your team page</a>)</span></label>
+    <input id="flyer-code-input" name="code" type="text" maxlength="6" autocomplete="off" placeholder="K7M2QX"></p>
   </div>
   <button type="button" class="plain" id="flyer-print">Print the flyer</button>
   <p class="small">One page, on ordinary letter paper. The flyer is made in your browser. The team's name, the town or league and your name become part of the address the QR code opens, so the page a parent sees can say who recommended it. If a parent then joins the waitlist from that page, we keep the team's code with their email, so we can tell how many families each team's flyer brought. Nothing else you do here is sent to us.</p>
@@ -71,6 +74,7 @@
   <div class="flyer-band"><img src="apple-touch-icon.png" width="180" height="180" alt="">GOAT in Training</div>
   <div class="flyer-body">
     <p class="flyer-team" id="flyer-team" hidden>For the families of <strong></strong></p>
+    <p class="flyer-code" id="flyer-code" hidden>Team code in the app: <strong></strong></p>
     <p class="flyer-head">Get <span>1% better</span><br>every day.</p>
     <ul>
       <li>A short session at home, ready every day.</li>
