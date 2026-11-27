@@ -2,7 +2,7 @@
 
 > A daily home training app for young athletes aged 6 to 14, used together with a parent. Football, basketball, baseball and softball, hockey and soccer. The plan changes with the athlete's age. The first 7 sessions are free for every athlete; then one family membership covers every athlete in the family. No ads, no chat and no tracking.
 
-The website has a page for each of the app's 168 drills: the steps, a starting amount and what to say. The harder levels are only in the app. This is general training guidance, not medical advice.
+The website has a page for each of the app's 178 drills: the steps, a starting amount and what to say. The harder levels are only in the app. This is general training guidance, not medical advice.
 
 ## Main pages
 - [Home](https://goatintraining.com/): what the app is and how the week works
@@ -11,12 +11,12 @@ The website has a page for each of the app's 168 drills: the steps, a starting a
 - [Support](https://goatintraining.com/support.html)
 
 ## Drill groups
-- [Sports drills for kids](https://goatintraining.com/drills/): 168 sports drills for kids ages 6 to 14 to do at home: speed, jumping, footwork, football, basketball, baseball, softball, hockey and soccer.
-- [Speed drills for kids](https://goatintraining.com/drills/speed/): 10 speed drills for ages 6 to 14 to do at home: A-skips, sprint starts, flying sprints and more, each with plain steps and a starting amount.
+- [Sports drills for kids](https://goatintraining.com/drills/): 178 sports drills for kids ages 6 to 14 to do at home: speed, jumping, footwork, football, basketball, baseball, softball, hockey and soccer.
+- [Speed drills for kids](https://goatintraining.com/drills/speed/): 11 speed drills for ages 6 to 14 to do at home: A-skips, sprint starts, flying sprints and more, each with plain steps and a starting amount.
 - [Jumping and strength drills for kids](https://goatintraining.com/drills/power/): 18 jumping, landing and body-weight strength drills for ages 6 to 14, with no gym: stick landings, broad jumps, squats, push-ups and more.
-- [Footwork and agility drills for kids](https://goatintraining.com/drills/footwork/): 9 footwork, balance and agility drills for ages 6 to 14 to do at home: jump rope, ladder patterns, the 5-10-5 shuttle and more.
+- [Footwork and agility drills for kids](https://goatintraining.com/drills/footwork/): 11 footwork, balance and agility drills for ages 6 to 14 to do at home: jump rope, ladder patterns, the 5-10-5 shuttle and more.
 - [Warm-ups and stretching for young athletes](https://goatintraining.com/drills/warm-up/): Four short warm-up and stretching routines for young athletes, ages 6 to 14: a dynamic warm-up, a quick-feet warm-up, a control warm-up and a stretch.
-- [Football drills for kids](https://goatintraining.com/drills/football/): 31 football drills for ages 6 to 14 to do at home, in 4 sets: Hands, Throwing, Hand-eye and Carry and run.
+- [Football drills for kids](https://goatintraining.com/drills/football/): 38 football drills for ages 6 to 14 to do at home, in 5 sets: Hands, Throwing, Hand-eye, Carry and run and Routes and releases.
 - [Basketball drills for kids](https://goatintraining.com/drills/basketball/): 24 basketball drills for ages 6 to 14 to do at home, in 3 sets: Handles and shot; Finishing and footwork; Pass, defend, rebound.
 - [Baseball and softball drills for kids](https://goatintraining.com/drills/baseball/): 24 baseball and softball drills for ages 6 to 14 to do at home, in 3 sets: Fielding and swings, Throwing and Hitting and running.
 - [Hockey drills for kids](https://goatintraining.com/drills/hockey/): 24 hockey drills for ages 6 to 14 to do at home, in 3 sets: Stickhandling, Shooting and Passing.
@@ -24,6 +24,7 @@ The website has a page for each of the app's 168 drills: the steps, a starting a
 
 ## Drills
 - [A-skips: a speed drill for kids](https://goatintraining.com/drills/speed/a-skips.html): A-skips break running into one piece at a time: knee up, toe up, foot down under the hips. A speed drill for ages 6 to 14. Jog first.
+- [Sprint form: a speed drill for kids](https://goatintraining.com/drills/speed/sprint-form.html): Sprint form slows running down to one step at a time: the knee comes up and the foot punches straight down under the hips. A speed drill for ages 6 to 14.
 - [First step: a speed drill for kids](https://goatintraining.com/drills/speed/first-step.html): This drill practices reacting to something they see and getting moving in one short step. A speed drill for ages 6 to 14. Go the moment Coach moves the ball.
 - [Start races: a speed drill for kids](https://goatintraining.com/drills/speed/start-races.html): Getting up from the ground and into a sprint teaches the body to sort itself out fast. A speed drill for ages 6 to 14.
 - [Sprints: a speed drill for kids](https://goatintraining.com/drills/speed/sprints.html): Short, full-effort sprints with full rest let your athlete practice running at their true top speed. A speed drill for ages 6 to 14.
@@ -54,6 +55,8 @@ The website has a page for each of the app's 168 drills: the steps, a starting a
 - [Jump rope: a footwork drill for kids](https://goatintraining.com/drills/footwork/jump-rope.html): Jump rope practices rhythm and staying light on the balls of the feet. A footwork drill for ages 6 to 14. Two feet together. Rest 30 seconds between rounds.
 - [Ladder footwork: a footwork drill for kids](https://goatintraining.com/drills/footwork/ladder-footwork.html): Ladder footwork practices placing the feet quickly and exactly where they need to go. A footwork drill for ages 6 to 14.
 - [One-leg balance catch: a footwork drill for kids](https://goatintraining.com/drills/footwork/one-leg-balance-catch.html): Catching on one leg asks your athlete to balance while their attention is on the ball. A footwork drill for ages 6 to 14. Easy tosses right to your chest.
+- [Pivot and go: a footwork drill for kids](https://goatintraining.com/drills/footwork/pivot-and-go.html): Pivot and go practices turning around and sprinting in one move. A footwork drill for ages 6 to 14. Head and chest around first, hips low, then sprint.
+- [Curve sprints: a footwork drill for kids](https://goatintraining.com/drills/footwork/curve-sprints.html): Curve sprints practice running fast on a bend. A footwork drill for ages 6 to 14. Two each way. Lean in and stay close to the cones.
 - [5-10-5 shuttle: a footwork drill for kids](https://goatintraining.com/drills/footwork/5-10-5-shuttle.html): The 5-10-5 shuttle practices two full changes of direction at speed, with a touch of the line each time. A footwork drill for ages 6 to 14.
 - [Mirror drill: a footwork drill for kids](https://goatintraining.com/drills/footwork/mirror-drill.html): The mirror drill practices reading another person's movement and staying in front of them. A footwork drill for ages 6 to 14. Stay right in front of Coach.
 - [Plant and cut: a footwork drill for kids](https://goatintraining.com/drills/footwork/plant-and-cut.html): Plant and cut practices changing direction off one foot at a planned spot. A footwork drill for ages 11 to 14. Jog in. Plant, cut and go.
@@ -92,6 +95,13 @@ The website has a page for each of the app's 168 drills: the steps, a starting a
 - [Switch hands: a football drill for kids](https://goatintraining.com/drills/football/switch-hands.html): Switch hands: a football drill for ages 6 to 14, with steps and a starting amount. Walking.
 - [Catch and go: a football drill for kids](https://goatintraining.com/drills/football/catch-and-go.html): Catch and go connects a short catch to turning upfield, which is what a receiver does after a quick pass to gain extra yards. A football drill for ages 6 to 14.
 - [Read and cut: a football drill for kids](https://goatintraining.com/drills/football/read-and-cut.html): Read and cut: a football drill for ages 11 to 14, with steps and a starting amount. Coach steps early. Jog in and make one sharp cut.
+- [Circle drill: a football drill for kids](https://goatintraining.com/drills/football/circle-drill.html): Circle drill: a football drill for ages 6 to 14, with steps and a starting amount. Jog it. Lean in with small, quick steps, then break out for the catch.
+- [Shuffle jabs: a football drill for kids](https://goatintraining.com/drills/football/shuffle-jabs.html): Shuffle jabs: a football drill for ages 6 to 14, with steps and a starting amount. Learn the zigzag. Low hips, quick feet, one sharp jab at each cone.
+- [Jab step: a football drill for kids](https://goatintraining.com/drills/football/jab-step.html): A jab step makes the defender think the receiver is going one way, which opens space to break the other way. A football drill for ages 6 to 14.
+- [Square cut: a football drill for kids](https://goatintraining.com/drills/football/square-cut.html): The square cut is the sharp sideways break of an out route. A football drill for ages 6 to 14. Three short steps, plant, cut. No rounding the corner.
+- [Rocker step: a football drill for kids](https://goatintraining.com/drills/football/rocker-step.html): The rocker step sells a short stop, so the defender comes forward, and then the receiver runs past them. A football drill for ages 6 to 14.
+- [Crossover release: a football drill for kids](https://goatintraining.com/drills/football/crossover-release.html): A crossover release is how a receiver gets off the line when a defender lines up right in front. A football drill for ages 6 to 14.
+- [Beat the press: a football drill for kids](https://goatintraining.com/drills/football/beat-the-press.html): Beat the press: a football drill for ages 11 to 14, with steps and a starting amount. Coach stays still. Fake, swipe, go.
 - [Route tree: a football drill for kids](https://goatintraining.com/drills/football/route-tree.html): Route tree: a football drill for ages 6 to 14, with steps and a starting amount. Hitch, slant, out and go. Sharp cut, head snaps around, hands ready.
 - [Stance and get-off: a football drill for kids](https://goatintraining.com/drills/football/stance-and-get-off.html): Stance and get-off: a football drill for ages 6 to 14, with steps and a starting amount. Fire out the moment Coach moves the ball.
 - [Flag pursuit: a football drill for kids](https://goatintraining.com/drills/football/flag-pursuit.html): Flag pursuit: a football drill for ages 6 to 14, with steps and a starting amount. Coach jogs.
